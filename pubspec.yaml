@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.4
+  timeago: ^3.7.0
 
 dev_dependencies:
   flutter_test:

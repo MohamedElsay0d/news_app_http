@@ -3,7 +3,8 @@ import 'package:news_app/app_theme.dart';
 import 'package:news_app/data/model/source_model.dart';
 
 import '../../../../data/model/category_model.dart';
-import '../widgets/news_item.dart';
+import '../widgets/new_item.dart';
+import '../widgets/source_item.dart';
 
 class NewsView extends StatefulWidget {
   static const routeName = '/news';
@@ -27,7 +28,7 @@ class _NewsViewState extends State<NewsView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          category.id,
+          category.id.toUpperCase(),
         ),
         actions: [
           IconButton(
@@ -60,15 +61,19 @@ class _NewsViewState extends State<NewsView> {
               },
               isScrollable: true,
               tabs: sources
-                  .map((e) => NewsItem(
+                  .map((e) => SourceItem(
                       source: e, isSelected: currentIdx == sources.indexOf(e)))
                   .toList(),
             ),
             Expanded(
-                child: TabBarView(
-              children:
-                  sources.map((e) => Center(child: Text(e.name))).toList(),
-            ))
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ListView.separated(
+                    itemBuilder: (context, index) => NewItem(),
+                    separatorBuilder: (context, index) => const SizedBox(),
+                    itemCount: 10),
+              ),
+            ),
           ],
         ),
       ),
