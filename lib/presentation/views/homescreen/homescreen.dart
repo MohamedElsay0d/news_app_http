@@ -10,7 +10,9 @@ class Homescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home',),
+        title: Text(
+          'Home',
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -18,7 +20,7 @@ class Homescreen extends StatelessWidget {
           ),
         ],
       ),
-
+      drawer: Drawer(),
       body: Categoriesview(),
     );
   }
