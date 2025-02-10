@@ -8,6 +8,8 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: white,
     primaryColor: black,
+
+    // AppBar
     appBarTheme: AppBarTheme(
       backgroundColor: white,
       foregroundColor: black,
@@ -20,11 +22,29 @@ class AppTheme {
         color: black,
       ),
     ),
+
+    // Text
     textTheme: TextTheme(
-      titleLarge:
-          TextStyle(color: black, fontSize: 24, fontWeight: FontWeight.bold),
-      titleMedium:
-          TextStyle(color: black, fontSize: 20, fontWeight: FontWeight.normal),
+      titleLarge: TextStyle(
+        color: black,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      titleMedium: TextStyle(
+        color: black,
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+      ),
+      titleSmall: TextStyle(
+        color: black,
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+      ),
+      bodyLarge: TextStyle(
+        color: black,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      )
     ),
   );
 

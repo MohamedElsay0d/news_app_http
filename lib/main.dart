@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
 import 'presentation/views/homescreen/homescreen.dart';
+import 'presentation/views/news/views/news_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -20,6 +21,7 @@ class MainApp extends StatelessWidget {
       initialRoute: Homescreen.routeName,
       routes: {
         Homescreen.routeName: (context) => const Homescreen(),
+        NewsView.routeName: (context) =>  NewsView(),
       },
     );
   }
