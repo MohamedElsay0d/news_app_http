@@ -3,6 +3,7 @@ import 'package:news_app/app_theme.dart';
 import 'package:news_app/data/model/source_model.dart';
 
 import '../../../../data/model/category_model.dart';
+import '../../../widgets/custom_drawer.dart';
 import '../widgets/new_item.dart';
 import '../widgets/source_item.dart';
 
@@ -37,7 +38,7 @@ class _NewsViewState extends State<NewsView> {
           ),
         ],
       ),
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       body: DefaultTabController(
         length: sources.length,
         initialIndex: currentIdx,

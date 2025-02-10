@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/custom_drawer.dart';
 import 'views/categoriesView.dart';
 
 class Homescreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class Homescreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       body: Categoriesview(),
     );
   }
