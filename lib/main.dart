@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
       initialRoute: Homescreen.routeName,
       routes: {
         Homescreen.routeName: (context) => const Homescreen(),
-        NewsView.routeName: (context) =>  NewsView(),
+        NewsView.routeName: (context) => NewsView(),
       },
     );
   }
