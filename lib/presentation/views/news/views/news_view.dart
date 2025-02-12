@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/app_theme.dart';
-import 'package:news_app/data/model/source_model.dart';
+import 'package:news_app/data/services/api_service.dart';
 
 import '../../../../data/model/category_model.dart';
+import '../../../../data/model/soureces_response/soureces_response.dart';
 import '../../../widgets/custom_drawer.dart';
 import '../widgets/new_item.dart';
 import '../widgets/source_item.dart';
@@ -18,11 +19,7 @@ class NewsView extends StatefulWidget {
 class _NewsViewState extends State<NewsView> {
   late CategoryModel category;
   int currentIdx = 0;
-  List<SourceModel> sources = List.generate(
-    10,
-    (index) => SourceModel(id: index, name: "Source $index"),
-  );
-
+  late Future<SourecesResponse> sources = APIService.getSources(category.id);
   @override
   Widget build(BuildContext context) {
     category = ModalRoute.of(context)!.settings.arguments as CategoryModel;
@@ -39,45 +36,77 @@ class _NewsViewState extends State<NewsView> {
         ],
       ),
       drawer: CustomDrawer(),
-      body: DefaultTabController(
-        length: sources.length,
-        initialIndex: currentIdx,
-        animationDuration: Duration(milliseconds: 500),
-        child: Column(
-          children: [
-            TabBar(
-              tabAlignment: TabAlignment.start,
-              indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(
-                  color: AppTheme.black,
-                  width: 2.0,
+      body: FutureBuilder(
+          future: sources,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Error'),
+              );
+            } else {
+              final sources = snapshot.data!.sources;
+              return DefaultTabController(
+                length: sources!.length,
+                initialIndex: currentIdx,
+                animationDuration: Duration(milliseconds: 500),
+                child: Column(
+                  children: [
+                    TabBar(
+                      tabAlignment: TabAlignment.start,
+                      indicator: UnderlineTabIndicator(
+                        borderSide: BorderSide(
+                          color: AppTheme.black,
+                          width: 2.0,
+                        ),
+                      ),
+                      dividerColor: Colors.transparent,
+                      onTap: (value) {
+                        if (currentIdx == value) return;
+                        setState(() {
+                          currentIdx = value;
+                        });
+                      },
+                      isScrollable: true,
+                      tabs: sources
+                          .map((e) => SourceItem(
+                                source: e,
+                                isSelected: currentIdx == sources.indexOf(e),
+                              ))
+                          .toList(),
+                    ),
+                    FutureBuilder(
+                        future: APIService.getNews(sources[currentIdx].id!),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: ListView.separated(
+                                  itemBuilder: (context, index) => NewItem(
+                                        title: snapshot
+                                            .data!.articles![index].title!,
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(),
+                                  itemCount: 10),
+                            ),
+                          );
+                        }),
+                  ],
                 ),
-              ),
-              dividerColor: Colors.transparent,
-              onTap: (value) {
-                if (currentIdx == value) return;
-                setState(() {
-                  currentIdx = value;
-                });
-              },
-              isScrollable: true,
-              tabs: sources
-                  .map((e) => SourceItem(
-                      source: e, isSelected: currentIdx == sources.indexOf(e)))
-                  .toList(),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListView.separated(
-                    itemBuilder: (context, index) => NewItem(),
-                    separatorBuilder: (context, index) => const SizedBox(),
-                    itemCount: 10),
-              ),
-            ),
-          ],
-        ),
-      ),
+              );
+            }
+          }),
     );
   }
 }
