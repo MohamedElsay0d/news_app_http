@@ -86,6 +86,10 @@ class _NewsViewState extends State<NewsView> {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                              child: Text('Error'),
+                            );
                           }
                           return Expanded(
                             child: Padding(
@@ -93,12 +97,12 @@ class _NewsViewState extends State<NewsView> {
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.separated(
                                   itemBuilder: (context, index) => NewItem(
-                                        title: snapshot
-                                            .data!.articles![index].title!,
+                                        article:
+                                            snapshot.data!.articles![index],
                                       ),
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(),
-                                  itemCount: 10),
+                                  itemCount: snapshot.data!.articles!.length),
                             ),
                           );
                         }),

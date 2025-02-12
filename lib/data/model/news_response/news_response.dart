@@ -15,9 +15,4 @@ class NewsResponse {
             .toList(),
       );
 
-  Map<String, dynamic> toJson() => {
-        'status': status,
-        'totalResults': totalResults,
-        'articles': articles?.map((e) => e.toJson()).toList(),
-      };
 }

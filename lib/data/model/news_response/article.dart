@@ -33,15 +33,4 @@ class Article {
         publishedAt: json['publishedAt'] as String?,
         content: json['content'] as String?,
       );
-
-  Map<String, dynamic> toJson() => {
-        'source': source?.toJson(),
-        'author': author,
-        'title': title,
-        'description': description,
-        'url': url,
-        'urlToImage': urlToImage,
-        'publishedAt': publishedAt,
-        'content': content,
-      };
 }
