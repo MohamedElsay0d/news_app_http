@@ -21,13 +21,15 @@ class APIService {
     return SourecesResponse.fromJson(json);
   }
 
-  static Future<NewsResponse> getNews(String soureceId) async {
+  static Future<NewsResponse> getNews(String soureceId , {String pageNumber = '1'}) async {
     Uri uri = Uri.https(
       ApiConstants.baseUrl,
       ApiConstants.newsEndpoint,
       {
         "apiKey": ApiConstants.apiKey,
         "sources": soureceId,
+        "pageSize" : '3' ,
+        'page' : pageNumber
       },
     );
     http.Response response = await http.get(uri);
