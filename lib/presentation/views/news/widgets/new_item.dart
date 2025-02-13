@@ -50,13 +50,14 @@ class NewItem extends StatelessWidget {
                 softWrap: false,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: AppTheme.gray,
-                      fontSize: 12,
+                      fontSize: 10,
                     ),
               ),
               Text(
                 timeago.format(dateTime),
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: AppTheme.gray,
+                      fontSize: 10,
                     ),
               ),
             ],

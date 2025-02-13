@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/app_theme.dart';
 import 'package:news_app/data/services/api_service.dart';
+import 'package:number_pagination/number_pagination.dart';
 
 import '../../../../data/model/category_model.dart';
 import '../../../../data/model/soureces_response/soureces_response.dart';
@@ -19,6 +20,7 @@ class NewsView extends StatefulWidget {
 class _NewsViewState extends State<NewsView> {
   late CategoryModel category;
   int currentIdx = 0;
+  int pageNumber = 1;
   late Future<SourecesResponse> sources = APIService.getSources(category.id);
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,10 @@ class _NewsViewState extends State<NewsView> {
                           .toList(),
                     ),
                     FutureBuilder(
-                        future: APIService.getNews(sources[currentIdx].id!),
+                        future: APIService.getNews(
+                          sources[currentIdx].id!,
+                          pageNumber: pageNumber.toString(),
+                        ),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -95,14 +100,30 @@ class _NewsViewState extends State<NewsView> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: ListView.separated(
-                                  itemBuilder: (context, index) => NewItem(
-                                        article:
-                                            snapshot.data!.articles![index],
-                                      ),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(),
-                                  itemCount: snapshot.data!.articles!.length),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: ListView.separated(
+                                        itemBuilder: (context, index) =>
+                                            NewItem(
+                                              article: snapshot
+                                                  .data!.articles![index],
+                                            ),
+                                        separatorBuilder: (context, index) =>
+                                            const SizedBox(),
+                                        itemCount:
+                                            snapshot.data!.articles!.length),
+                                  ),
+                                  NumberPagination(
+                                    onPageChanged: (page) =>
+                                        setState(() => pageNumber = page),
+                                    totalPages:
+                                        (snapshot.data!.totalResults!) ~/ 2,
+                                    visiblePagesCount: 3,
+                                    currentPage: pageNumber,
+                                  )
+                                ],
+                              ),
                             ),
                           );
                         }),
