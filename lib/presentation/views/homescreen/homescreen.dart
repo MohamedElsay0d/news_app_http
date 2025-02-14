@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/custom_drawer.dart';
+import '../news/views/search_view.dart';
 import 'views/categoriesView.dart';
 
 class Homescreen extends StatelessWidget {
@@ -16,7 +17,9 @@ class Homescreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, SearchView.routeName);
+            },
             icon: Icon(Icons.search_sharp),
           ),
         ],

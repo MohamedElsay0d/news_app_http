@@ -9,6 +9,7 @@ import '../../../widgets/custom_drawer.dart';
 import '../widgets/custom_bottom_sheet.dart';
 import '../widgets/new_item.dart';
 import '../widgets/source_item.dart';
+import 'search_view.dart';
 
 class NewsView extends StatefulWidget {
   static const routeName = '/news';
@@ -33,7 +34,9 @@ class _NewsViewState extends State<NewsView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, SearchView.routeName);
+            },
             icon: Icon(Icons.search_sharp),
           ),
         ],

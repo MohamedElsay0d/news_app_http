@@ -24,7 +24,7 @@ class NewItem extends StatelessWidget {
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: CachedNetworkImage(
-                imageUrl: article.urlToImage!,
+                imageUrl: article.urlToImage ?? 'https://st2.depositphotos.com/1006899/5283/i/950/depositphotos_52839753-stock-photo-error-illustration.jpg',
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
