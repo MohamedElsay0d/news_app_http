@@ -25,26 +25,36 @@ class AppTheme {
 
     // Text
     textTheme: TextTheme(
-        titleLarge: TextStyle(
-          color: black,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-        titleMedium: TextStyle(
-          color: black,
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-        ),
-        titleSmall: TextStyle(
-          color: black,
+      titleLarge: TextStyle(
+        color: black,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      titleMedium: TextStyle(
+        color: black,
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+      ),
+      titleSmall: TextStyle(
+        color: black,
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+      ),
+      bodyLarge: TextStyle(
+        color: black,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: white,
+        foregroundColor: black,
+        textStyle: const TextStyle(
           fontSize: 16,
-          fontWeight: FontWeight.w700,
-        ),
-        bodyLarge: TextStyle(
-          color: black,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        )),
+          fontWeight: FontWeight.bold,
+        )
+    ))
   );
 
   static ThemeData darkTheme = ThemeData();

@@ -43,21 +43,24 @@ class NewItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "By: ${article.author ?? 'Unknown'}",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                softWrap: false,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppTheme.gray,
-                      fontSize: 10,
-                    ),
+              Expanded(
+                child: Text(
+                  "By: ${article.author ?? 'Unknown'}",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppTheme.gray,
+                      ),
+                ),
+              ),
+              SizedBox(
+                width: 12,
               ),
               Text(
                 timeago.format(dateTime),
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: AppTheme.gray,
-                      fontSize: 10,
                     ),
               ),
             ],

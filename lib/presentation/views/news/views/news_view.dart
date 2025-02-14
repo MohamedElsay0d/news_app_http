@@ -6,6 +6,7 @@ import 'package:number_pagination/number_pagination.dart';
 import '../../../../data/model/category_model.dart';
 import '../../../../data/model/soureces_response/soureces_response.dart';
 import '../../../widgets/custom_drawer.dart';
+import '../widgets/custom_bottom_sheet.dart';
 import '../widgets/new_item.dart';
 import '../widgets/source_item.dart';
 
@@ -51,13 +52,13 @@ class _NewsViewState extends State<NewsView> {
               );
             } else {
               final sources = snapshot.data!.sources;
-              return DefaultTabController(
-                length: sources!.length,
-                initialIndex: currentIdx,
-                animationDuration: Duration(milliseconds: 500),
-                child: Column(
-                  children: [
-                    TabBar(
+              return Column(
+                children: [
+                  DefaultTabController(
+                    length: sources!.length,
+                    initialIndex: currentIdx,
+                    animationDuration: Duration(milliseconds: 500),
+                    child: TabBar(
                       tabAlignment: TabAlignment.start,
                       indicator: UnderlineTabIndicator(
                         borderSide: BorderSide(
@@ -80,55 +81,65 @@ class _NewsViewState extends State<NewsView> {
                               ))
                           .toList(),
                     ),
-                    FutureBuilder(
-                        future: APIService.getNews(
-                          sources[currentIdx].id!,
-                          pageNumber: pageNumber.toString(),
-                        ),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasError) {
-                            return const Center(
-                              child: Text('Error'),
-                            );
-                          }
-                          return Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: ListView.separated(
-                                        itemBuilder: (context, index) =>
-                                            NewItem(
+                  ),
+                  FutureBuilder(
+                      future: APIService.getNews(
+                        sources[currentIdx].id!,
+                        pageNumber: pageNumber.toString(),
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Center(
+                            child: Text('Error'),
+                          );
+                        }
+                        return Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: ListView.separated(
+                                      itemBuilder: (context, index) => InkWell(
+                                            onTap: () => showModalBottomSheet(
+                                     
+                                              context: context,
+                                              builder: (context) =>
+                                                  NewsBottomSheet(
+                                                article: snapshot
+                                                    .data!.articles![index],
+                                              ),
+                                            ),
+                                            child: NewItem(
                                               article: snapshot
                                                   .data!.articles![index],
                                             ),
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(),
-                                        itemCount:
-                                            snapshot.data!.articles!.length),
-                                  ),
-                                  NumberPagination(
-                                    onPageChanged: (page) =>
-                                        setState(() => pageNumber = page),
-                                    totalPages:
-                                        (snapshot.data!.totalResults!) ~/ 2,
-                                    visiblePagesCount: 3,
-                                    currentPage: pageNumber,
-                                  )
-                                ],
-                              ),
+                                          ),
+                                      separatorBuilder: (context, index) =>
+                                          const SizedBox(),
+                                      itemCount:
+                                          snapshot.data!.articles!.length),
+                                ),
+                                NumberPagination(
+                                  onPageChanged: (page) =>
+                                      setState(() => pageNumber = page),
+                                  totalPages:
+                                      (snapshot.data!.totalResults!) ~/ 2,
+                                  visiblePagesCount: 3,
+                                  currentPage: pageNumber,
+                                )
+                              ],
                             ),
-                          );
-                        }),
-                  ],
-                ),
+                          ),
+                        );
+                      }),
+                ],
               );
             }
           }),
